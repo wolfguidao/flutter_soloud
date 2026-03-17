@@ -1,4 +1,7 @@
 // this source is used only on Mac and iOS to reference all the others
+// when using Swift Package Manager. Not used whith CocoaPods. The build
+// prrocess used by CocoaPods consists with the use the .podspec file
+// which call the build_cmake.sh script in its script_phase.
 
 /// SoLoud sources
 #define WITH_NULL
