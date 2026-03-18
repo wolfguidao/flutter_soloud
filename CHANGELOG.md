@@ -1,3 +1,6 @@
+#### 3.5.2 (18 Mar 2026)
+- fix: wire miniaudio backend pause/resume to stop AudioUnit on iOS #406. Thanks to @sbauly
+
 #### 3.5.1 (14 Mar 2026)
 - `getStreamTimeConsumed` return wrong time for s16le and s8 #419
 - win fix: hang on app exit #413
