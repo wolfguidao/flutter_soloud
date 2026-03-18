@@ -27,106 +27,104 @@ target_link_libraries(${PLUGIN_NAME} PRIVATE PkgConfig::GTK)
 
 # Library linking behavior:
 # 
-# - NO_OPUS_OGG_LIBS: If set, skips linking Opus/Ogg/Vorbis/FLAC libraries entirely.
+# - NO_OPUS_OGG_LIBS:       If set, skips linking Opus/Ogg/Vorbis/FLAC libraries entirely.
 #
-# - FORCE_PRECOMPILED_LIBS: If set, forces the use of bundled precompiled libraries
-#                           (libFLAC.so, libopus.so, libogg.so, libvorbis.so, libvorbisfile.so)
-#                           from the libs/ directory, ignoring system-installed versions.
+# - TRY_SYSTEM_LIBS_FIRST:  If set, tries to find system-installed libraries first
+#                           (FLAC, opus, ogg, vorbis, vorbisfile), and falls back to
+#                           bundled precompiled libraries only if not found on the system.
 #
-# - Default behavior (neither env var set): Prefer system libraries if available,
-#                                           fall back to bundled precompiled libraries
-#                                           if not found on the system.
+# - Default behavior:       Uses bundled precompiled libraries from the libs/ directory.
 #
 if(NOT DEFINED ENV{NO_OPUS_OGG_LIBS})
-    message( "NO_OPUS_OGG_LIBS has not been set. Linking Opus and Ogg libraries!")
+    message("NO_OPUS_OGG_LIBS has not been set. Linking Opus and Ogg libraries!")
 
-    # Check if we should force use of precompiled libraries
-    if(DEFINED ENV{FORCE_PRECOMPILED_LIBS})
-        message( "FORCE_PRECOMPILED_LIBS is set. Using bundled precompiled libraries.")
-        set(USE_PRECOMPILED_LIBS TRUE)
+    # Check if we should try system libraries first
+    if(DEFINED ENV{TRY_SYSTEM_LIBS_FIRST})
+        message("TRY_SYSTEM_LIBS_FIRST is set. Will try system libraries first, falling back to bundled if not found.")
+        set(TRY_SYSTEM_LIBS TRUE)
     else()
-        message( "FORCE_PRECOMPILED_LIBS is not set. Will prefer system libraries if available.")
-        set(USE_PRECOMPILED_LIBS FALSE)
+        message("Using bundled precompiled libraries (default behavior for backward compatibility).")
+        set(TRY_SYSTEM_LIBS FALSE)
     endif()
 
     # FLAC
-    if(USE_PRECOMPILED_LIBS)
-        set(FLAC_LIBRARY ${CMAKE_CURRENT_SOURCE_DIR}/libs/libFLAC.so)
-        message( "FLAC: using bundled library (forced): ${FLAC_LIBRARY}")
-    else()
+    if(TRY_SYSTEM_LIBS)
         find_library(FLAC_LIBRARY NAMES FLAC)
         if(NOT FLAC_LIBRARY)
             set(FLAC_LIBRARY ${CMAKE_CURRENT_SOURCE_DIR}/libs/libFLAC.so)
-            message( "FLAC: system library not found, using bundled: ${FLAC_LIBRARY}")
+            message("FLAC: system library not found, using bundled: ${FLAC_LIBRARY}")
         else()
-            message( "FLAC: using system library: ${FLAC_LIBRARY}")
+            message("FLAC: using system library: ${FLAC_LIBRARY}")
         endif()
+    else()
+        set(FLAC_LIBRARY ${CMAKE_CURRENT_SOURCE_DIR}/libs/libFLAC.so)
+        message("FLAC: using bundled library: ${FLAC_LIBRARY}")
     endif()
     target_link_libraries(${PLUGIN_NAME} PRIVATE ${FLAC_LIBRARY})
 
     # Opus
-    if(USE_PRECOMPILED_LIBS)
-        set(OPUS_LIBRARY ${CMAKE_CURRENT_SOURCE_DIR}/libs/libopus.so)
-        message( "Opus: using bundled library (forced): ${OPUS_LIBRARY}")
-    else()
+    if(TRY_SYSTEM_LIBS)
         find_library(OPUS_LIBRARY NAMES opus)
         if(NOT OPUS_LIBRARY)
             set(OPUS_LIBRARY ${CMAKE_CURRENT_SOURCE_DIR}/libs/libopus.so)
-            message( "Opus: system library not found, using bundled: ${OPUS_LIBRARY}")
+            message("Opus: system library not found, using bundled: ${OPUS_LIBRARY}")
         else()
-            message( "Opus: using system library: ${OPUS_LIBRARY}")
+            message("Opus: using system library: ${OPUS_LIBRARY}")
         endif()
+    else()
+        set(OPUS_LIBRARY ${CMAKE_CURRENT_SOURCE_DIR}/libs/libopus.so)
+        message("Opus: using bundled library: ${OPUS_LIBRARY}")
     endif()
     target_link_libraries(${PLUGIN_NAME} PRIVATE ${OPUS_LIBRARY})
 
     # Ogg
-    if(USE_PRECOMPILED_LIBS)
-        set(OGG_LIBRARY ${CMAKE_CURRENT_SOURCE_DIR}/libs/libogg.so)
-        message( "Ogg: using bundled library (forced): ${OGG_LIBRARY}")
-    else()
+    if(TRY_SYSTEM_LIBS)
         find_library(OGG_LIBRARY NAMES ogg)
         if(NOT OGG_LIBRARY)
             set(OGG_LIBRARY ${CMAKE_CURRENT_SOURCE_DIR}/libs/libogg.so)
-            message( "Ogg: system library not found, using bundled: ${OGG_LIBRARY}")
+            message("Ogg: system library not found, using bundled: ${OGG_LIBRARY}")
         else()
-            message( "Ogg: using system library: ${OGG_LIBRARY}")
+            message("Ogg: using system library: ${OGG_LIBRARY}")
         endif()
+    else()
+        set(OGG_LIBRARY ${CMAKE_CURRENT_SOURCE_DIR}/libs/libogg.so)
+        message("Ogg: using bundled library: ${OGG_LIBRARY}")
     endif()
     target_link_libraries(${PLUGIN_NAME} PRIVATE ${OGG_LIBRARY})
 
     # Vorbis
-    if(USE_PRECOMPILED_LIBS)
-        set(VORBIS_LIBRARY ${CMAKE_CURRENT_SOURCE_DIR}/libs/libvorbis.so)
-        message( "Vorbis: using bundled library (forced): ${VORBIS_LIBRARY}")
-    else()
+    if(TRY_SYSTEM_LIBS)
         find_library(VORBIS_LIBRARY NAMES vorbis)
         if(NOT VORBIS_LIBRARY)
             set(VORBIS_LIBRARY ${CMAKE_CURRENT_SOURCE_DIR}/libs/libvorbis.so)
-            message( "Vorbis: system library not found, using bundled: ${VORBIS_LIBRARY}")
+            message("Vorbis: system library not found, using bundled: ${VORBIS_LIBRARY}")
         else()
-            message( "Vorbis: using system library: ${VORBIS_LIBRARY}")
+            message("Vorbis: using system library: ${VORBIS_LIBRARY}")
         endif()
+    else()
+        set(VORBIS_LIBRARY ${CMAKE_CURRENT_SOURCE_DIR}/libs/libvorbis.so)
+        message("Vorbis: using bundled library: ${VORBIS_LIBRARY}")
     endif()
     target_link_libraries(${PLUGIN_NAME} PRIVATE ${VORBIS_LIBRARY})
 
     # Vorbisfile
-    if(USE_PRECOMPILED_LIBS)
-        set(VORBISFILE_LIBRARY ${CMAKE_CURRENT_SOURCE_DIR}/libs/libvorbisfile.so)
-        message( "Vorbisfile: using bundled library (forced): ${VORBISFILE_LIBRARY}")
-    else()
+    if(TRY_SYSTEM_LIBS)
         find_library(VORBISFILE_LIBRARY NAMES vorbisfile)
         if(NOT VORBISFILE_LIBRARY)
             set(VORBISFILE_LIBRARY ${CMAKE_CURRENT_SOURCE_DIR}/libs/libvorbisfile.so)
-            message( "Vorbisfile: system library not found, using bundled: ${VORBISFILE_LIBRARY}")
+            message("Vorbisfile: system library not found, using bundled: ${VORBISFILE_LIBRARY}")
         else()
-            message( "Vorbisfile: using system library: ${VORBISFILE_LIBRARY}")
+            message("Vorbisfile: using system library: ${VORBISFILE_LIBRARY}")
         endif()
+    else()
+        set(VORBISFILE_LIBRARY ${CMAKE_CURRENT_SOURCE_DIR}/libs/libvorbisfile.so)
+        message("Vorbisfile: using bundled library: ${VORBISFILE_LIBRARY}")
     endif()
     target_link_libraries(${PLUGIN_NAME} PRIVATE ${VORBISFILE_LIBRARY})
 
     include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 else()
-    message( "NO_OPUS_OGG_LIBS has been set. Not linking Opus and Ogg libraries!")
+    message("NO_OPUS_OGG_LIBS has been set. Not linking Opus and Ogg libraries!")
     add_definitions(-DNO_OPUS_OGG_LIBS)
 endif()
 
