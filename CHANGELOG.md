@@ -1,5 +1,8 @@
+#### 3.5.4 (22 Mar 2026)
+- remove wasm/js assets for non-web builds#425. Thanks to @adil192
+
 #### 3.5.3 (21 Mar 2026)
-fix: compilation error on Windows #423
+- fix: compilation error on Windows #423
 
 #### 3.5.2 (18 Mar 2026)
 - fix: wire miniaudio backend pause/resume to stop AudioUnit on iOS #406. Thanks to @sbauly
