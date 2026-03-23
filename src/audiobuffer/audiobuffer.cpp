@@ -59,14 +59,7 @@ unsigned int BufferStreamInstance::getAudio(float *aBuffer,
     // Calculate mStreamPosition based on mOffset
     mStreamPosition = mOffset / (float)(mBaseSamplerate * mChannels);
 
-    // This is not nice to do in the audio callback, but I didn't
-    // find a better way to get lenght and pause the sound and the
-    // `checkBuffering` function is fast enough.
-    if (!mParent->mIsBuffering) {
-      mParent->mThePlayer->soloud.unlockAudioMutex_internal();
-      mParent->checkBuffering(0);
-      mParent->mThePlayer->soloud.lockAudioMutex_internal();
-    }
+    // The buffering state will be checked when addAudioDataStream() or setDataIsEnded() is called.
     return 0;
   }
 
@@ -81,14 +74,7 @@ unsigned int BufferStreamInstance::getAudio(float *aBuffer,
     // Calculate mStreamPosition based on mOffset
     mStreamPosition = mOffset / (float)(mBaseSamplerate * mChannels);
 
-    // This is not nice to do in the audio callback, but I didn't
-    // find a better way to get lenght and pause the sound and the
-    // `chakeBuffering` function is fast enough.
-    if (!mParent->mIsBuffering) {
-      mParent->mThePlayer->soloud.unlockAudioMutex_internal();
-      mParent->checkBuffering(0);
-      mParent->mThePlayer->soloud.lockAudioMutex_internal();
-    }
+    // The buffering state will be checked when addAudioDataStream() or setDataIsEnded() is called.
     return 0;
   }
 

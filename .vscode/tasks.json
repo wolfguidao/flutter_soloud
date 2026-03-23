@@ -24,7 +24,7 @@
         },
         {
             "label": "compile windows debug",
-            "command": "cd ${workspaceFolder}/example; flutter build windows -t lib/mixing_bus/mixing_bus.dart --debug",
+            "command": "cd ${workspaceFolder}/example; flutter build windows -t lib/buffer_stream/simple_noise_stream.dart --debug",
             "type": "shell"
         },
         {
