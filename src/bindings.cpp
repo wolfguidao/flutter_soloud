@@ -183,7 +183,7 @@ setDartEventCallback(dartVoiceEndedCallback_t voice_ended_callback,
 //////////////////////////////////////////////////////////////////////////////////
 
 /// Check if the libopus and libogg are available at build time.
-FFI_PLUGIN_EXPORT bool areOpusOggLibsAvailable() {
+FFI_PLUGIN_EXPORT bool areXiphLibsAvailable() {
 #if !defined(NO_XIPH_LIBS)
   return true;
 #else

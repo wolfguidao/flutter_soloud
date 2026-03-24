@@ -101,8 +101,8 @@ enum PlayerErrors {
   /// Audio format not supported
   audioFormatNotSupported(29),
 
-  /// Opus ogg vorbis libraries not found.
-  opusOggVorbisLibsNotFound(30),
+  /// Xiph libraries not found.
+  xiphLibsNotFound(30),
 
   /// Bus id not found.
   busIdNotFound(31);
@@ -195,8 +195,8 @@ enum PlayerErrors {
       case PlayerErrors.audioFormatNotSupported:
         return 'Audio format not supported. Please check the audio file format '
             'and ensure it is supported by the player.';
-      case PlayerErrors.opusOggVorbisLibsNotFound:
-        return 'Opus Ogg Vorbis libraries not found. Please check the '
+      case PlayerErrors.xiphLibsNotFound:
+        return 'Xiph libraries not found. Please check the '
             'installation and ensure the required libraries are available. '
             'Ref:'
             'https://docs.page/alnitak/flutter_soloud_docs/get_started/no_xiph_libs';

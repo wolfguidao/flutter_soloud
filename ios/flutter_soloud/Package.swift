@@ -4,9 +4,9 @@
 import PackageDescription
 import class Foundation.ProcessInfo
 
-// Check if Opus/Ogg libraries should be disabled via environment variable
+// Check if Xiph libraries should be disabled via environment variable
 // Usage: NO_XIPH_LIBS=1 swift build
-var disableOpusOggLibs: Bool {
+var disableXiphLibs: Bool {
     ProcessInfo.processInfo.environment["NO_XIPH_LIBS"] == "1"
 }
 
@@ -17,7 +17,7 @@ var baseDependencies: [Target.Dependency] = [
 
 // Add Xiph library dependencies only when not disabled
 let targetDependencies: [Target.Dependency]
-if disableOpusOggLibs {
+if disableXiphLibs {
     targetDependencies = baseDependencies
 } else {
     targetDependencies = baseDependencies + [
@@ -43,7 +43,7 @@ var baseCXXSettings: [CXXSetting] = [
 // Add Xiph include paths only when not disabled
 let cSettings: [CSetting]
 let cxxSettings: [CXXSetting]
-if disableOpusOggLibs {
+if disableXiphLibs {
     cSettings = baseCSettings + [
         .define("NO_XIPH_LIBS")
     ]
@@ -89,7 +89,7 @@ var targets: [Target] = [
 ]
 
 // Add binary targets only when not disabled
-if !disableOpusOggLibs {
+if !disableXiphLibs {
     targets.append(contentsOf: [
         .binaryTarget(name: "opus", path: "Frameworks/opus.xcframework"),
         .binaryTarget(name: "ogg", path: "Frameworks/ogg.xcframework"),

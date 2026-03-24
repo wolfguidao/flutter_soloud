@@ -124,7 +124,7 @@ std::pair<std::vector<float>, DecoderError> StreamDecoder::decode(
             || detectedType == DetectedType::BUFFER_OGG_VORBIS
             || detectedType == DetectedType::BUFFER_OGG_FLAC) {
             #if defined(NO_XIPH_LIBS)
-                return {{}, DecoderError::NoOpusOggLibs};
+                return {{}, DecoderError::NoXiphLibs};
             #else
                 if (detectedType == DetectedType::BUFFER_OGG_VORBIS) {
                     mWrapper = std::make_unique<VorbisDecoderWrapper>();

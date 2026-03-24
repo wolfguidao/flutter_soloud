@@ -103,7 +103,7 @@ class FlutterSoLoudWeb extends FlutterSoLoud {
   }
 
   @override
-  bool areOpusOggLibsAvailable() => wasmAreOpusOggLibsAvailable() == 1;
+  bool areXiphLibsAvailable() => wasmAreXiphLibsAvailable() == 1;
 
   @override
   PlayerErrors initEngine(

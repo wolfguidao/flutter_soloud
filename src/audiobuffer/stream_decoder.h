@@ -23,7 +23,7 @@ typedef enum {
 enum class DecoderError {
   NoError,
   FormatNotSupported,
-  NoOpusOggLibs,
+  NoXiphLibs,
   FailedToCreateDecoder,
   ErrorReadingOggOpusPage
 };

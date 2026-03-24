@@ -70,8 +70,8 @@ typedef enum PlayerErrors {
   bufferStreamWithReleasedBufferTypeCannotBeSeeked = 28,
   /// Audio format not supported.
   audioFormatNotSupported = 29,
-  /// Opus ogg vorbis libraries not found.
-  opusOggVorbisLibsNotFound = 30,
+  /// Xiph libraries not found.
+  xiphLibsNotFound = 30,
   /// Bus ID not found.
   busIdNotFound = 31,
 } PlayerErrors_t;

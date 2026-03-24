@@ -952,7 +952,7 @@ interface class SoLoud {
   /// Thows [SoLoudOutOfMemoryException] if the buffer is out of OS memory or
   /// the given `maxBufferSize` of the `setBufferStream` call is too small.
   ///
-  /// Throws [SoLoudOpusOggLibsNotAvailableException] if the Ogg, Opus and
+  /// Throws [SoLoudXiphLibsNotAvailableException] if the Ogg, Opus and
   /// Vorbis libraries are not linked and trying to add audio data in those
   /// formats. Probably you need to unset NO_XIPH_LIBS environment
   /// variable. Ref:
@@ -972,9 +972,9 @@ interface class SoLoud {
         );
 
     if (e != PlayerErrors.noError) {
-      if (e == PlayerErrors.opusOggVorbisLibsNotFound) {
+      if (e == PlayerErrors.xiphLibsNotFound) {
         _logPlayerError(e, from: 'addAudioDataStream() result');
-        throw const SoLoudOpusOggLibsNotAvailableException();
+        throw const SoLoudXiphLibsNotAvailableException();
       }
       _logPlayerError(e, from: 'addAudioDataStream() result');
       throw SoLoudCppException.fromPlayerError(e);

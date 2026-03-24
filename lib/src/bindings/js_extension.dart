@@ -85,8 +85,8 @@ external int wasmSetDataIsEnded(int hash);
 @JS('Module_soloud._getBufferSize')
 external int wasmGetBufferSize(int hash, int sizeInBytesPtr);
 
-@JS('Module_soloud._areOpusOggLibsAvailable')
-external int wasmAreOpusOggLibsAvailable();
+@JS('Module_soloud._areXiphLibsAvailable')
+external int wasmAreXiphLibsAvailable();
 
 @JS('Module_soloud._initEngine')
 external int wasmInitEngine(

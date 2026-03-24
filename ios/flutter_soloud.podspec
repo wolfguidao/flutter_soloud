@@ -18,7 +18,7 @@ Flutter audio plugin using SoLoud library and FFI
   s.dependency 'Flutter'
   s.platform = :ios, '13.0'
 
-  # Check if we should disable opus/ogg support (must exist and be '1')
+  # Check if we should disable Xiph libs support (must exist and be '1')
   disable_xiph_libs = !ENV['NO_XIPH_LIBS'].nil? && ENV['NO_XIPH_LIBS'] == '1'
 
   # Path to the plugin's source root from PODS_ROOT (available in app target context)

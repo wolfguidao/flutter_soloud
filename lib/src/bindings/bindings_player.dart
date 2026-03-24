@@ -68,7 +68,7 @@ abstract class FlutterSoLoud {
 
   /// Check if the libopus and libogg are available at build time.
   @mustBeOverridden
-  bool areOpusOggLibsAvailable();
+  bool areXiphLibsAvailable();
 
   /// Initialize the player. Must be called before any other player functions.
   ///

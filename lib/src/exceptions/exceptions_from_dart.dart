@@ -123,12 +123,12 @@ class SoLoudWrongOpusParamsException extends SoLoudDartException {
 
 /// An exception that is thrown when at buit-time the Opus and Ogg libraries
 /// are not available and trying to use the Opus codec.
-class SoLoudOpusOggLibsNotAvailableException extends SoLoudDartException {
-  /// Creates a new [SoLoudOpusOggLibsNotAvailableException].
-  const SoLoudOpusOggLibsNotAvailableException([super.message]);
+class SoLoudXiphLibsNotAvailableException extends SoLoudDartException {
+  /// Creates a new [SoLoudXiphLibsNotAvailableException].
+  const SoLoudXiphLibsNotAvailableException([super.message]);
 
   @override
-  String get description => 'The Opus and Ogg libraries are not available. '
+  String get description => 'The Xiph libraries are not available. '
       'If your target platform is Android, could happens that the NDK built '
       'files are not updated. If this is the case, or you just want to read '
       'more about enablig/disabling the libs, please read the documentation: '

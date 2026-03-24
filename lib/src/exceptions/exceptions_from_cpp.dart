@@ -363,9 +363,9 @@ class SoLoudAudioFormatNotSupportedCppException extends SoLoudCppException {
 }
 
 /// An error occurred while trying to initialize an audio decoder.
-class SoLoudOpusOggVorbisLibsNotFoundCppException extends SoLoudCppException {
-  /// Creates a new [SoLoudOpusOggVorbisLibsNotFoundCppException].
-  const SoLoudOpusOggVorbisLibsNotFoundCppException([super.message]);
+class SoLoudXiphLibsNotFoundCppException extends SoLoudCppException {
+  /// Creates a new [SoLoudXiphLibsNotFoundCppException].
+  const SoLoudXiphLibsNotFoundCppException([super.message]);
 
   @override
   String get description => 'An error occurred while trying to initialize an '

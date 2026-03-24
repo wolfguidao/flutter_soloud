@@ -347,8 +347,8 @@ PlayerErrors BufferStream::addData(const void *aData, unsigned int aDataLen,
     switch (error) {
     case DecoderError::FormatNotSupported:
       return PlayerErrors::audioFormatNotSupported;
-    case DecoderError::NoOpusOggLibs:
-      return PlayerErrors::opusOggVorbisLibsNotFound;
+    case DecoderError::NoXiphLibs:
+      return PlayerErrors::xiphLibsNotFound;
     case DecoderError::FailedToCreateDecoder:
       return PlayerErrors::failedToCreateOpusDecoder;
     case DecoderError::ErrorReadingOggOpusPage:

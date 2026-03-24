@@ -21,7 +21,7 @@ Flutter audio plugin using SoLoud library and FFI
   # Declare vendored Xiph libraries (only when not disabled)
   s.vendored_libraries = 'flutter_soloud/libs/lib*.a' unless ENV['NO_XIPH_LIBS'] == '1'
 
-  # Check if we should disable opus/ogg support (must exist and be '1')
+  # Check if we should disable Xiph libs support (must exist and be '1')
   disable_xiph_libs = !ENV['NO_XIPH_LIBS'].nil? && ENV['NO_XIPH_LIBS'] == '1'
   
   local_lib_path = '$(PODS_TARGET_SRCROOT)/flutter_soloud/libs'
