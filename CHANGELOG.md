@@ -1,4 +1,4 @@
-#### 4.0.0-pre.1 (XX Xxx 2026)
+#### 4.0.0-pre.0 (24 Mar 2026)
 - added Mixing Bus feature and example https://docs.page/alnitak/flutter_soloud_docs~dev/advanced/mixing_bus
 - added `getApproximateVolume` to get the approximate volume of a channel of the player
 - added `autoDispose` parameter to `load*` methods to automatically dispose the sound when it is finished. This eliminates the need to manually call disposeSource
@@ -20,7 +20,7 @@
 - bump Flutter version to 3.41.0 and Dart to 3.11.0
 - play, play3d, speechText, are now sync
 - renamed `NO_OPUS_OGG_LIBS` environment variable to `NO_XIPH_LIBS`
-- renamed `SoLoudOpusOggVorbisLibsNotFoundCppException` to `SoLoudXiphLibsNotFoundCppException`
+- renamed `SoLoudOpusOggVorbisLibsNotAvailableException` to `SoLoudXiphLibsNotAvailableException`
 - renamed `areOpusOggLibsAvailable` to `areXiphLibsAvailable`
 
 #### 3.5.3 (21 Mar 2026)
