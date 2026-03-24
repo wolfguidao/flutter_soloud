@@ -1,22 +1,24 @@
 #### 4.0.0-pre.1 (XX Xxx 2026)
-- added Mixing Bus feature and example
+- added Mixing Bus feature and example https://docs.page/alnitak/flutter_soloud_docs~dev/advanced/mixing_bus
 - added `getApproximateVolume` to get the approximate volume of a channel of the player
-- now using cmake to compile the plugin in release mode for macOS and iOS
-- fixed a possible crash during app shutdown
-- conditional import of js and wasm only on web (no more included on other platforms)
-- possible fix for #333
-- improved quality and performance of the pitchshift filter #313
+- added `autoDispose` parameter to `load*` methods to automatically dispose the sound when it is finished. This eliminates the need to manually call disposeSource
+- added `playSource` to play a source from assets, URLs, o file and automatically disposed when the source is finished
 - added `filters/parametric_eq.dart` example
 - added parametric equalizer with 1 to 64 bands and FFT window size 32 to 4096 for quality and performance
-- Android fix: elevate audio thread priority on Android #396. Thanks to @djkingCanada
-- Android: cmake optimizations
-- breaking change: bump Flutter version to 3.41.0 and Dart to 3.11.0
 - added Swift Package Manager support
-- previously wasm module was included on all platforms, now it is included only on web
+- improved quality and performance of the pitchshift filter #313
+- CocoaPods now uses cmake to compile the plugin always in release mode for macOS and iOS
+- conditional import of `js` and `wasm` only on web (no more included on other platforms)
+- fixed a possible crash during app shutdown
+- possible fix for #333 which caused an ANR on Android when stopping/deinit
 - Linux feat: choose to link ogg,opus,vorbis, and flac libraries from the system with `TRY_SYSTEM_LIBS_FIRST=1` environment variable #421
+- Android fix: elevate audio thread priority on Android #396. Thanks to @djkingCanada
+- Android: build optimizations
+- breaking change: bump Flutter version to 3.41.0 and Dart to 3.11.0
+- breaking change: play, play3d, speechText, are now sync
 
 #### 3.5.3 (21 Mar 2026)
-fix: compilation error on Windows #423
+- fix: compilation error on Windows #423
 
 #### 3.5.2 (18 Mar 2026)
 - fix: wire miniaudio backend pause/resume to stop AudioUnit on iOS #406. Thanks to @sbauly

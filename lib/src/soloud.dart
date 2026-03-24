@@ -1240,7 +1240,7 @@ interface class SoLoud {
   /// Returns the new sound as [AudioSource].
   ///
   /// Throws [SoLoudNotInitializedException] if the engine is not initialized.
-  Future<AudioSource> speechText(String textToSpeech) async {
+  AudioSource speechText(String textToSpeech) {
     if (!isInitialized) {
       throw const SoLoudNotInitializedException();
     }
@@ -1298,8 +1298,7 @@ interface class SoLoud {
   ///
   /// Throws [SoLoudSoundHashNotFoundDartException] if the given [sound]
   /// is not found.
-  // TODO(alnitak): make this sync
-  Future<SoundHandle> play(
+  SoundHandle play(
     AudioSource sound, {
     int busId = 0,
     double volume = 1,
@@ -1307,7 +1306,7 @@ interface class SoLoud {
     bool paused = false,
     bool looping = false,
     Duration loopingStartAt = Duration.zero,
-  }) async {
+  }) {
     if (!isInitialized) {
       throw const SoLoudNotInitializedException();
     }
@@ -1393,7 +1392,7 @@ interface class SoLoud {
       sound = await loadUrl(url, mode: mode, autoDispose: true);
     }
 
-    await play(
+    play(
       sound,
       busId: busId,
       volume: volume,
@@ -2592,8 +2591,7 @@ interface class SoLoud {
   ///
   /// Throws [SoLoudBufferStreamCanBePlayedOnlyOnceCppException] if we try to
   /// play a BufferStream using `release` buffer type more than once.
-  // TODO(alnitak): make this sync
-  Future<SoundHandle> play3d(
+  SoundHandle play3d(
     AudioSource sound,
     double posX,
     double posY,
@@ -2606,7 +2604,7 @@ interface class SoLoud {
     bool paused = false,
     bool looping = false,
     Duration loopingStartAt = Duration.zero,
-  }) async {
+  }) {
     if (!isInitialized) {
       throw const SoLoudNotInitializedException();
     }
