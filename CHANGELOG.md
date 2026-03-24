@@ -9,9 +9,10 @@
 - improved quality and performance of the pitchshift filter #313
 - CocoaPods now uses cmake to compile the plugin always in release mode for macOS and iOS
 - conditional import of `js` and `wasm` only on web (no more included on other platforms)
+- win fix: UTF8 file name conversion was causing crash or file not found #427
 - fixed a possible crash during app shutdown
 - possible fix for #333 which caused an ANR on Android when stopping/deinit
-- Linux feat: choose to link ogg,opus,vorbis, and flac libraries from the system with `TRY_SYSTEM_LIBS_FIRST=1` environment variable #421
+- Linux feat: choose to link ogg, opus, vorbis, and flac libraries from the system with `TRY_SYSTEM_LIBS_FIRST=1` environment variable #421
 - Android fix: elevate audio thread priority on Android #396. Thanks to @djkingCanada
 - Android: build optimizations
 - breaking change: bump Flutter version to 3.41.0 and Dart to 3.11.0
