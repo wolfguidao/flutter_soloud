@@ -1,4 +1,4 @@
-#### 4.0.0-pre.1 (XX Xxx 2026)
+#### 4.0.0-pre.1 (26 Mar 2026)
 - macOS fix: build error
 
 #### 4.0.0-pre.0 (24 Mar 2026)
