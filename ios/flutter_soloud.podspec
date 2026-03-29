@@ -107,6 +107,9 @@ Flutter audio plugin using SoLoud library and FFI
     'OTHER_LDFLAGS[sdk=iphoneos*]' => "$(inherited) #{user_ldflags_device}",
     'OTHER_LDFLAGS[sdk=iphonesimulator*]' => "$(inherited) #{user_ldflags_sim}",
     'LIBRARY_SEARCH_PATHS' => "$(inherited) \"#{plugin_root}/cmake_build/$(PLATFORM_NAME)\" \"#{plugin_root}/flutter_soloud/libs\"",
+    # Fix for FFI symbol stripping on iOS Release builds
+    'STRIP_STYLE' => 'debugging',
+    'DEBUG_INFORMATION_FORMAT' => 'dwarf-with-dsym',
   }
   
   # Do NOT use vendored_libraries for Xiph libs — it generates non-SDK-conditioned

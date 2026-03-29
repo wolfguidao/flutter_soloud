@@ -84,6 +84,9 @@ var targets: [Target] = [
         linkerSettings: [
             .linkedFramework("AudioToolbox"),
             .linkedFramework("AVFAudio"),
+            // Fix for FFI symbol stripping on Release builds
+            // These flags ensure FFI symbols are preserved in the app binary
+            .unsafeFlags(["-Xlinker", "-strip_debug_only"], .when(configuration: .release)),
         ]
     )
 ]

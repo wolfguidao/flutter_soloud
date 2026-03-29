@@ -86,6 +86,9 @@ Flutter audio plugin using SoLoud library and FFI
   s.user_target_xcconfig = {
     'OTHER_LDFLAGS' => "$(inherited) #{force_load_lib} #{xiph_flags}",
     'LIBRARY_SEARCH_PATHS' => "$(inherited) \"#{plugin_root}/cmake_build/macosx\" \"#{plugin_root}/libs\"",
+    # Fix for FFI symbol stripping on macOS Release builds
+    'STRIP_STYLE' => 'debugging',
+    'DEBUG_INFORMATION_FORMAT' => 'dwarf-with-dsym',
   }
 
   s.swift_version = '5.0'
