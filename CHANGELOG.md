@@ -1,4 +1,7 @@
-#### 4.0.0-pre.2 (XX Mar 2026)
+#### 4.0.0-pre.3 (29 Mar 2026)
+- fix: FFI symbol stripping causing "symbol not found" errors in iOS/macOS when uploading to App Store #431
+
+#### 4.0.0-pre.2 (28 Mar 2026)
 - macOS/iOS fix: check for cmake in path while building
 - iOS simulator: fix libs linking
 
