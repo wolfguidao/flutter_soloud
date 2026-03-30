@@ -1016,8 +1016,7 @@ Future<StringBuffer> testBufferStreamSmallMp3() async {
       .buffer
       .asUint8List();
 
-  final smallRefSource =
-      await SoLoud.instance.loadMem('small_ref', smallMp3);
+  final smallRefSource = await SoLoud.instance.loadMem('small_ref', smallMp3);
   final smallRefDuration = SoLoud.instance.getLength(smallRefSource);
   await SoLoud.instance.disposeSource(smallRefSource);
 
@@ -1044,8 +1043,7 @@ Future<StringBuffer> testBufferStreamSmallMp3() async {
       .buffer
       .asUint8List();
 
-  final largeRefSource =
-      await SoLoud.instance.loadMem('large_ref', largeMp3);
+  final largeRefSource = await SoLoud.instance.loadMem('large_ref', largeMp3);
   final largeRefDuration = SoLoud.instance.getLength(largeRefSource);
   await SoLoud.instance.disposeSource(largeRefSource);
 
