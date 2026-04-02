@@ -651,7 +651,7 @@ class FlutterSoLoudWeb extends FlutterSoLoud {
 
   @override
   void setInaudibleBehavior(SoundHandle handle, bool mustTick, bool kill) {
-    return wasmSetInaudibleBehavior(handle.id, mustTick ? 1 : 0, kill ? 1 : 0);
+    return wasmSetInaudibleBehavior(handle.id, mustTick, kill);
   }
 
   @override

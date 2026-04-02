@@ -42,13 +42,6 @@ std::vector<std::string> Filters::getFilterParamNames(FilterType filterType) {
       ret.push_back(f.getParamName(i));
     }
   } break;
-  case EqFilter: {
-    SoLoud::EqFilter f;
-    int nParams = f.getParamCount();
-    for (int i = 0; i < nParams; i++) {
-      ret.push_back(f.getParamName(i));
-    }
-  } break;
   case EchoFilter: {
     SoLoud::EchoFilter f;
     int nParams = f.getParamCount();
@@ -147,8 +140,6 @@ PlayerErrors Filters::addFilter(FilterType filterType) {
   case BiquadResonantFilter:
     newFilter = new SoLoud::BiquadResonantFilter();
     break;
-  case EqFilter:
-    newFilter = new SoLoud::EqFilter();
     break;
   case EchoFilter:
     newFilter = new SoLoud::EchoFilter();

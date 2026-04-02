@@ -6,7 +6,7 @@ A low-level audio plugin for Flutter.
 ||Linux|Windows|Android|MacOS|iOS|Web|
 |-|:-:|:-:|:-:|:-:|:-:|:-:|
 |Support|💙|💙|💙|💙|💙|💙|
-|Minimum Version|Any|Any|21|10.15|13.0|Any|
+|Minimum Version|Any|Any|21+|10.15+|13.0+|iOS 16.4+</br>Safari 16.4+</br>Chrome 91+</br>Edge 91+</br>Firefox 89+</br>|
 
 ## Overview
 

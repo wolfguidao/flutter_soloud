@@ -184,6 +184,11 @@ class _ParametricEqState extends State<ParametricEq> {
                               bandsNumber.value = value.toInt();
                               soloud.filters.parametricEqFilter.numBands.value =
                                   value;
+                              for (var i = 0; i < bandsNumber.value; i++) {
+                                soloud.filters.parametricEqFilter
+                                    .bandGain(i)
+                                    .value = gains[i].value;
+                              }
                             },
                           ),
                         ),

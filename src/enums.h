@@ -112,7 +112,6 @@ typedef enum SoundType {
 
 typedef enum FilterType {
   BiquadResonantFilter,
-  EqFilter,
   EchoFilter,
   LofiFilter,
   FlangerFilter,

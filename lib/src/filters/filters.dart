@@ -457,6 +457,7 @@ class FilterParam {
 }
 
 /// The different types of audio filters.
+/// WARNING: Keep these in sync with `src/enums.h`.
 enum FilterType {
   /// A biquad resonant filter.
   biquadResonantFilter,

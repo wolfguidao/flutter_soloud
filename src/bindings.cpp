@@ -1403,6 +1403,7 @@ FFI_PLUGIN_EXPORT enum PlayerErrors addFilter(unsigned int soundHash,
       return busIdNotFound;
     return busFilters->filters.addFilter(filterType);
   }
+  return PlayerErrors::noError;
 }
 
 /// Remove the filter [filterType] from [soundHash]. If [soundHash]==0 the
@@ -1437,7 +1438,7 @@ FFI_PLUGIN_EXPORT enum PlayerErrors removeFilter(unsigned int soundHash,
     }
   }
 
-  return noError;
+  return PlayerErrors::noError;
 }
 
 /// Set the effect parameter with id [attributeId]
@@ -1479,7 +1480,7 @@ FFI_PLUGIN_EXPORT enum PlayerErrors setFilterParams(unsigned int handle,
       }
     }
   }
-  return noError;
+  return PlayerErrors::noError;
 }
 
 /// Get the effect parameter with id [attributeId] of [filterType].
@@ -1533,7 +1534,7 @@ FFI_PLUGIN_EXPORT enum PlayerErrors getFilterParams(unsigned int handle,
       }
     }
   }
-  return noError;
+  return PlayerErrors::noError;
 }
 
 /// Fades a parameter of a filter.
