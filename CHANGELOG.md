@@ -1,6 +1,7 @@
 #### 4.0.0-pre.4 (XX Xxx 2026)
 - fix: some OGG audio files don't trigger `SoundEventType.handleIsNoMoreValid`
 - fix: setBufferStream fails to decode small MP3 files under 32 KB #434. Thanks to @chaudharydeepanshu
+- fix web: `createVoiceGroup` return was interpred as a signed int instead of unsigned because it has always the sign bit flag
 - fixed switching output devices on macOS and maybe on others platforms, didn't initialize correctly the new one
 - added some more tests
 - removed deprecated `equalizerFilter` in favor of `parametricEqFilter`
