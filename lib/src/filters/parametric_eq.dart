@@ -195,7 +195,8 @@ class ParametricEqSingle extends _ParametricEqInternal {
   /// Get the center frequency (in Hz) for a specific band.
   ///
   /// [bandIndex] should be 0 to nBands-1.
-  /// [soundHandle] is the handle of the playing sound, or `null` for bus filters.
+  /// [soundHandle] is the handle of the playing sound, or `null` for
+  /// bus filters.
   ///
   /// The number of bands is automatically read from the active filter. If the
   /// filter is not active or the index is out of range, it will
@@ -263,11 +264,11 @@ class ParametricEqGlobal extends _ParametricEqInternal {
 
   /// Get the center frequency (in Hz) for a specific band.
   ///
-  /// [bandIndex] should be 0 to [nBands]-1.
+  /// [bandIndex] should be 0 to nBands-1.
   ///
   /// The number of bands is automatically read from the active filter. If the
-  /// filter is not active or the value cannot be read, [defaultNBands] is used
-  /// (default: 3).
+  /// filter is not active or the index is out of range, it will
+  /// throw [ArgumentError]
   ///
   /// Frequencies are distributed logarithmically (geometrically) between
   /// 30 Hz and 16,000 Hz to match human auditory perception.

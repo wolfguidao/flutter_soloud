@@ -1,5 +1,6 @@
 #### 4.0.1 (9 Apr 2026)
 - fixed get eq params other than bands values
+- added frequency getter to parametric equalizer (ie: `soloud.filters.parametricEqFilter.bandFrequency(index)`)
 - removed some warnings from native build
 - warn mac users to install cmake if not already installed
 
