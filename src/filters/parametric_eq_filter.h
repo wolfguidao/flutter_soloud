@@ -10,15 +10,11 @@ class ParametricEq;
 
 class ParametricEqInstance : public SoLoud::FilterInstance {
   ParametricEq *mParent;
-  // float* mBuffer;          // Temporary buffer for FFT processing
-  // float* mWindow;          // Window function coefficients
-  // unsigned int mBufferSize;
-  // unsigned int mBufferPos;
   float *mInputBuffer[MAX_CHANNELS];
   float *mMixBuffer[MAX_CHANNELS];
   float *mTemp;
-  float *mFFTBuffer; // Aligned buffer for PFFFT
-  float *mFFTWork;   // Work buffer for PFFFT
+  float *mFFTBuffer;
+  float *mFFTWork;
   PFFFT_Setup *mFFTSetup;
   unsigned int mInputOffset[MAX_CHANNELS];
   unsigned int mMixOffset[MAX_CHANNELS];
@@ -27,7 +23,7 @@ class ParametricEqInstance : public SoLoud::FilterInstance {
   // Band information precomputed for fast lookup
   int mBands;
   std::vector<float> mBandCenter;
-  std::vector<float> mBandBoundary; // size = mBands+1, boundaries between bands
+  std::vector<float> mBandBoundary;
 
   // Helper functions for FFT processing
   void comp2MagPhase(float *aFFTBuffer, unsigned int aSamples);
@@ -39,44 +35,57 @@ class ParametricEqInstance : public SoLoud::FilterInstance {
   // Initialize FFT setup and allocate buffers
   void initFFTBuffers();
 
+  // Free all allocated buffers
+  void freeBuffers();
+
 public:
-  ParametricEqInstance(ParametricEq *aParent);
-  virtual ~ParametricEqInstance();
-  virtual void filterChannel(float *aBuffer, unsigned int aSamples,
-                             float aSamplerate, SoLoud::time aTime,
-                             unsigned int aChannel, unsigned int aChannels);
-  virtual void fftFilterChannel(float *aFFTBuffer, unsigned int aSamples,
-                                float aSamplerate, SoLoud::time aTime,
-                                unsigned int aChannel, unsigned int aChannels);
-  virtual void setFilterParameter(unsigned int aAttributeId, float aValue);
+  explicit ParametricEqInstance(ParametricEq *aParent);
+  ~ParametricEqInstance() override;
+  
+  void filterChannel(float *aBuffer, unsigned int aSamples,
+                     float aSamplerate, SoLoud::time aTime,
+                     unsigned int aChannel, unsigned int aChannels) override;
+  void fftFilterChannel(float *aFFTBuffer, unsigned int aSamples,
+                        float aSamplerate, SoLoud::time aTime,
+                        unsigned int aChannel, unsigned int aChannels);
+  void setFilterParameter(unsigned int aAttributeId, float aValue) override;
 };
 
 class ParametricEq : public SoLoud::Filter {
 public:
-  // Wet param is index 0 in the filter param list; band gains start at index 1
-  unsigned int mBands;      // number of EQ bands (user configurable)
+  // Fixed parameter indices:
+  // 0: wet, 1: window size, 2: band count, 3+: per-band gains
+  static constexpr int NUM_FIXED_PARAMS = 3;
+  static constexpr int MAX_BANDS = 64;
+  static constexpr int DEFAULT_BANDS = 3;
+  static constexpr int MIN_WINDOW_SIZE = 16;
+  static constexpr int MAX_WINDOW_SIZE = 65536;
+  static constexpr int DEFAULT_WINDOW_SIZE = 1024;
+  static constexpr float MIN_FREQ = 30.0f;
+  static constexpr float MAX_FREQ = 16000.0f;
+  static constexpr float SINGLE_BAND_FREQ = 1000.0f;
+  
+  int mBands;
   float mWet;
-  std::vector<float> mGain; // per-band gain
-  std::vector<float> mFreq; // per-band center frequency
-  int mSTFT_WINDOW_SIZE; // Increased for better frequency resolution. Must be a
-                         // power of 2.
+  std::vector<float> mGain;
+  std::vector<float> mFreq;
+  int mSTFT_WINDOW_SIZE;
   int mSTFT_WINDOW_HALF;
   int mSTFT_WINDOW_TWICE;
   float mFFT_SCALE;
 
-  ParametricEq(SoLoud::Soloud *aSoloud, int bands = 3);
-  virtual int getParamCount();
-  virtual const char *getParamName(unsigned int aParamIndex);
-  virtual unsigned int getParamType(unsigned int aParamIndex);
-  virtual float getParamMax(unsigned int aParamIndex);
-  virtual float getParamMin(unsigned int aParamIndex);
+  explicit ParametricEq(SoLoud::Soloud *aSoloud, int bands = DEFAULT_BANDS);
+  
+  int getParamCount() override;
+  const char *getParamName(unsigned int aParamIndex) override;
+  unsigned int getParamType(unsigned int aParamIndex) override;
+  float getParamMax(unsigned int aParamIndex) override;
+  float getParamMin(unsigned int aParamIndex) override;
   SoLoud::result setParam(unsigned int aParamIndex, float aValue);
-  void setFreqs(unsigned int nBands);
-  virtual SoLoud::FilterInstance *createInstance();
+  void setFreqs(int nBands);
+  SoLoud::FilterInstance *createInstance() override;
 
-  /// main SoLoud engine, the one used by player.cpp
   SoLoud::Soloud *mSoloud;
-
   int mChannels;
 };
 
