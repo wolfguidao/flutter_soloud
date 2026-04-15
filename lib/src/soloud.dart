@@ -1258,7 +1258,7 @@ interface class SoLoud {
 
     _logPlayerError(ret.error, from: 'speechText() result');
     if (ret.error == PlayerErrors.noError) {
-      final newSound = AudioSource(SoundHash.random());
+      final newSound = AudioSource(SoundHash(ret.handle.id));
       _activeSounds.add(newSound);
       return newSound;
     }
