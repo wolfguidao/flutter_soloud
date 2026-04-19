@@ -107,6 +107,12 @@ namespace SoLoud
     {
         MA_ASSERT(pNotification != NULL);
 
+        // Guard against notifications delivered after deinitialization.
+        // The notifications may be pending on the main thread when the
+        // device is torn down.
+        if (soloud == nullptr)
+            return;
+
         switch (pNotification->type)
         {
             case ma_device_notification_type_started:
@@ -194,7 +200,13 @@ namespace SoLoud
             delete gInitThread;
             gInitThread = nullptr;
         }
-        
+
+        // Clear the global soloud pointer BEFORE uninitializing the device.
+        // This prevents any pending platform notifications (e.g. iOS route
+        // changes delivered on the main thread) from dereferencing a
+        // destroyed SoLoud instance through the on_notification callback.
+        soloud = nullptr;
+
         if (gDeviceInitialized)
         {
             // Check if device is already stopped before calling ma_device_stop()
