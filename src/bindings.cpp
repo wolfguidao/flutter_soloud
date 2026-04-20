@@ -139,7 +139,7 @@ FFI_PLUGIN_EXPORT void voiceEndedCallback(unsigned int *handle) {
   if (!isHandleFound)
     return;
   // [n] pointer must be deleted in Dart.
-  unsigned int *n = (unsigned int *)malloc(sizeof(unsigned int *));
+  unsigned int *n = (unsigned int *)malloc(sizeof(unsigned int));
   *n = *handle;
   voiceEndedCb(n);
 }
@@ -151,12 +151,12 @@ FFI_PLUGIN_EXPORT void voiceEndedCallback(unsigned int *handle) {
         if (fileLoadedCb == nullptr)
             return;
         // [e,name,n] pointers must be deleted on Dart.
-        PlayerErrors *e = (PlayerErrors *)malloc(sizeof(PlayerErrors *));
+        PlayerErrors *e = (PlayerErrors *)malloc(sizeof(PlayerErrors));
         *e = error;
         char *name = strdup(completeFileName);
-        unsigned int *n = (unsigned int *)malloc(sizeof(unsigned int *));
+        unsigned int *n = (unsigned int *)malloc(sizeof(unsigned int));
         *n = *hash;
-        uint64_t *ts = (uint64_t *)malloc(sizeof(uint64_t *));
+        uint64_t *ts = (uint64_t *)malloc(sizeof(uint64_t));
         *ts = counter;
         fileLoadedCb(e, name, n, ts);
     }
@@ -164,7 +164,7 @@ FFI_PLUGIN_EXPORT void voiceEndedCallback(unsigned int *handle) {
 void stateChangedCallback(unsigned int state) {
   auto stateChangedCb = dartStateChangedCallback.load();
   if (stateChangedCb == nullptr) return;
-  PlayerStateEvents *type = (PlayerStateEvents *)malloc(sizeof(unsigned int *));
+  PlayerStateEvents *type = (PlayerStateEvents *)malloc(sizeof(PlayerStateEvents));
   *type = (PlayerStateEvents)state;
   stateChangedCb(type);
 }
@@ -277,11 +277,11 @@ FFI_PLUGIN_EXPORT void listPlaybackDevices(char **devicesName, int **deviceId,
     if (strlen(d[i].name) <= 5 || hasSpecialChar)
       continue;
 
-    devicesName[i] = strdup(d[i].name);
-    isDefault[i] = (int *)malloc(sizeof(int *));
-    *isDefault[i] = d[i].isDefault;
-    deviceId[i] = (int *)malloc(sizeof(int *));
-    *deviceId[i] = d[i].id;
+    devicesName[numDevices] = strdup(d[i].name);
+    isDefault[numDevices] = (int *)malloc(sizeof(int));
+    *isDefault[numDevices] = d[i].isDefault;
+    deviceId[numDevices] = (int *)malloc(sizeof(int));
+    *deviceId[numDevices] = d[i].id;
 
     numDevices++;
   }
@@ -315,6 +315,8 @@ FFI_PLUGIN_EXPORT void dispose() {
   player.reset();
   player = nullptr;
   player = std::make_unique<Player>();
+  analyzer.reset();
+  analyzer = std::make_unique<Analyzer>(256);
 }
 
 FFI_PLUGIN_EXPORT int isInited() {
@@ -767,6 +769,8 @@ FFI_PLUGIN_EXPORT enum PlayerErrors play(unsigned int soundHash, unsigned int bu
 /// [handle]
 FFI_PLUGIN_EXPORT void stop(unsigned int handle) {
   if (player.get() == nullptr || !player.get()->isInited())
+    return;
+  if (!player.get()->isValidHandle(handle))
     return;
   player.get()->stop(handle);
   voiceEndedCallback(&handle);
@@ -1740,7 +1744,7 @@ FFI_PLUGIN_EXPORT void set3dListenerUp(float upX, float upY, float upZ) {
   if (player.get() == nullptr || !player.get()->isInited() ||
       player.get()->getSoundsCount() == 0)
     return;
-  player.get()->set3dListenerAt(upX, upY, upZ);
+  player.get()->set3dListenerUp(upX, upY, upZ);
   player.get()->update3dAudio();
 }
 

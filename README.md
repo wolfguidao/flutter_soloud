@@ -55,6 +55,18 @@ void example() async {
 }
 ```
 
+## Apps & Games Using flutter_soloud
+
+A showcase of apps and games built with this plugin:
+
+| App/Game | Developer | Description |
+|----------|-----------|-------------|
+| GPhil</br>[web](https://app.g-phil.app/) [macOS](https://apps.apple.com/it/app/gphil/id6740543718) [Windows](https://apps.microsoft.com/detail/9pkkz2p2dldg?ocid=webpdpshare)| Vyacheslav Gryaznov | Innovative app designed for musicians to play instrumental concertos with flexible virtual orchestral accompaniment.|
+| [Forcebar](https://forcebar.xyz) | Doug Todd | Forcebar is a pure reflex game. |
+| [RadioVisualizer](https://radiovisualizer.com) | Marco Bavagnoli | Stream over 35,000 live radio stations from every corner of the globe. |
+
+*Want to add your app? Feel free to open a PR!*
+
 ## License
 
 The Dart plugin is covered by the MIT license. For information about the underlying SoLoud engine license, see the [documentation](https://docs.page/alnitak/flutter_soloud/get_started/license).

@@ -945,6 +945,7 @@ PlayerErrors Player::textToSpeech(const std::string &textToSpeech, unsigned int 
     if (result == SoLoud::SO_NO_ERROR)
     {
         handle = soloud.play(speech);
+        sounds.back().get()->soundHash = handle;
         sounds.back().get()->filters = std::make_unique<Filters>(&soloud, sounds.back().get(), nullptr);
         sounds.back().get()->handle.push_back({handle, MAX_DOUBLE});
     }

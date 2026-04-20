@@ -42,6 +42,75 @@ void _loadFile(Map<String, dynamic> args) {
   );
 }
 
+/// Web-specific loader that uses `setBufferStream` with chunked
+/// `addAudioDataStream` calls to avoid blocking the UI thread.
+///
+/// The audio data is added in chunks with yields to the event loop
+/// between each chunk, allowing the browser to process UI events.
+Future<({PlayerErrors error, SoundHash soundHash})> _loadMemWeb({
+  required String path,
+  required Uint8List buffer,
+  required LoadMode mode,
+  required int sampleRate,
+  required Channels channels,
+}) async {
+  // The more the size of the chunk, the less often we yield, but the more
+  // glitches on the UI. The less the size of the chunk, the more often
+  // we yield, but the more time it takes to load the sound. 128 KB seems
+  // to be a good balance.
+  const chunkSize = 128 * 1024; // 128 KB chunks
+
+  // Create a buffer stream with auto-detection and preserved buffering.
+  final ret = SoLoudController().soLoudFFI.setBufferStream(
+    // 200 MB max buffer size, not allocated, just a limit for the stream
+    1024 * 1024 * 200,
+    BufferingType.preserved,
+    0.5,
+    sampleRate,
+    channels.count,
+    BufferType.auto.value,
+    null,
+    null,
+  );
+
+  if (ret.error != PlayerErrors.noError) {
+    return ret;
+  }
+
+  // Add audio data in chunks, yielding between each chunk.
+  for (var offset = 0; offset < buffer.length; offset += chunkSize) {
+    final end = (offset + chunkSize < buffer.length)
+        ? offset + chunkSize
+        : buffer.length;
+    final chunk = Uint8List.sublistView(buffer, offset, end);
+
+    final error = SoLoudController().soLoudFFI.addAudioDataStream(
+      ret.soundHash.hash,
+      chunk,
+    );
+
+    if (error != PlayerErrors.noError) {
+      // Clean up the partially created stream on error.
+      SoLoudController().soLoudFFI.disposeSound(ret.soundHash);
+      return (error: error, soundHash: SoundHash(0));
+    }
+
+    // Yield to the event loop every chunk to keep UI responsive.
+    if (end < buffer.length) {
+      await Future<void>.delayed(Duration.zero);
+    }
+  }
+
+  // Mark the stream as ended.
+  final endError = SoLoudController().soLoudFFI.setDataIsEnded(ret.soundHash);
+  if (endError != PlayerErrors.noError) {
+    SoLoudController().soLoudFFI.disposeSound(ret.soundHash);
+    return (error: endError, soundHash: SoundHash(0));
+  }
+
+  return ret;
+}
+
 @pragma('vm:entry-point')
 Float32List _readSamplesFromFile(Map<String, dynamic> args) {
   return SoLoudController().soLoudFFI.readSamplesFromFile(
@@ -216,6 +285,12 @@ interface class SoLoud {
   @internal
   final Map<SoundHandle, Completer<void>> voiceEndedCompleters = {};
 
+  /// The sample rate the engine was initialized with.
+  int _sampleRate = 44100;
+
+  /// The channels the engine was initialized with.
+  Channels _channels = Channels.stereo;
+
   /// Initializes the audio engine.
   ///
   /// Run this before anything else, and `await` its result in a try/catch.
@@ -319,6 +394,10 @@ interface class SoLoud {
       /// Eventually we can set this as a parameter during the
       /// initialization with some other parameters like `sampleRate`
       _isVisualizationEnabled = _controller.soLoudFFI.getVisualizationEnabled();
+
+      // Store the initialization parameters for later use.
+      _sampleRate = sampleRate;
+      _channels = channels;
 
       // Initialize [SoLoudLoader]
       _loader.automaticCleanup = automaticCleanup;
@@ -646,11 +725,19 @@ interface class SoLoud {
     final counter = _currentLoadCounter++;
     loadedFileCompleters.addAll({'$path-$counter': completer});
 
-    final ret = await compute(_loadMem, {
-      'path': path,
-      'buffer': buffer,
-      'mode': mode.index,
-    });
+    final ret = kIsWeb
+        ? await _loadMemWeb(
+            path: path,
+            buffer: buffer,
+            mode: mode,
+            sampleRate: _sampleRate,
+            channels: _channels,
+          )
+        : await compute(_loadMem, {
+            'path': path,
+            'buffer': buffer,
+            'mode': mode.index,
+          });
 
     /// There is not a callback in cpp that is supposed to add the
     /// "load file event". Manually send this event to have only one
@@ -1268,7 +1355,7 @@ interface class SoLoud {
 
     _logPlayerError(ret.error, from: 'speechText() result');
     if (ret.error == PlayerErrors.noError) {
-      final newSound = AudioSource(SoundHash.random());
+      final newSound = AudioSource(SoundHash(ret.handle.id));
       _activeSounds.add(newSound);
       return newSound;
     }
