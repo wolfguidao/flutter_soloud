@@ -62,7 +62,7 @@ Future<({PlayerErrors error, SoundHash soundHash})> _loadMemWeb({
 
   // Create a buffer stream with auto-detection and preserved buffering.
   final ret = SoLoudController().soLoudFFI.setBufferStream(
-    // 200 MB max buffer size, not allocated upfront, just a limit for the stream
+    // 200 MB max buffer size, not allocated, just a limit for the stream
     1024 * 1024 * 200,
     BufferingType.preserved,
     0.5,
