@@ -266,7 +266,9 @@ interface class SoLoud {
   /// Use [isInitialized] only if you want to check the current status of
   /// the engine synchronously and you don't care that it might be ready soon.
   bool get isInitialized =>
-      _nativeCallbacksInitialized && _controller.soLoudFFI.isInited();
+      _nativeCallbacksInitialized &&
+      _controller.soLoudFFI.isInited() &&
+      _loader.isInitialized;
 
   /// Backing of [activeSounds].
   final List<AudioSource> _activeSounds = [];
