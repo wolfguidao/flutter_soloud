@@ -348,22 +348,24 @@ interface class SoLoud {
     final nativeIsInitialized = _controller.soLoudFFI.isInited();
     _log.finest('init() called');
 
+    // Removing these asserts because they could not be true after a
+    // hot restart or after calling deinit(). Discussed in #452.
     // Making extra sure no state is dangling after a hot-restart.
-    assert(
-      voiceEndedCompleters.isEmpty,
-      'voiceEndedCompleters is not empty. '
-      'Probably the developer forgot to call deinit().',
-    );
-    assert(
-      loadedFileCompleters.isEmpty,
-      'loadedFileCompleters is not empty. '
-      'Probably the developer forgot to call deinit().',
-    );
-    assert(
-      _activeSounds.isEmpty,
-      '_activeSounds is not empty. '
-      'Probably the developer forgot to call deinit().',
-    );
+    // assert(
+    //   voiceEndedCompleters.isEmpty,
+    //   'voiceEndedCompleters is not empty. '
+    //   'Probably the developer forgot to call deinit().',
+    // );
+    // assert(
+    //   loadedFileCompleters.isEmpty,
+    //   'loadedFileCompleters is not empty. '
+    //   'Probably the developer forgot to call deinit().',
+    // );
+    // assert(
+    //   _activeSounds.isEmpty,
+    //   '_activeSounds is not empty. '
+    //   'Probably the developer forgot to call deinit().',
+    // );
     voiceEndedCompleters.clear();
     loadedFileCompleters.clear();
     _activeSounds.clear();
